@@ -1,32 +1,33 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <v-app-bar
+      color="primary"
+      dark
+      height="400px"
+    >
+      <template v-slot:default >
+        <div style="width:100%;" class="d-flex flex-column align-center justify-center">
+          <v-img width="300px" :src="rocket"></v-img>
+          <h2>Space Flight News</h2>
+        </div>
+      </template>
+    </v-app-bar>
+
+    <v-main>
+      <router-view/>
+    </v-main>
+  </v-app>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script lang="ts">
+import Vue from 'vue';
+import rocket from './assets/rocket-1206.svg';
 
-#nav {
-  padding: 30px;
+export default Vue.extend({
+  name: 'App',
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
+  data: () => ({
+    rocket,
+  }),
+});
+</script>
