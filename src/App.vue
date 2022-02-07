@@ -10,7 +10,7 @@
 
           <div  class="d-flex flex-column align-center justify-center grid-3-1">
             <v-img width="300px" :src="rocket"></v-img>
-            <h2>Maria Bananinha</h2>
+            <h2>Space Flight News</h2>
           </div>
           <div style="width:100%;" class="grid-3-2 d-flex align-center justify-space-between">
             <search v-model="titleSearch"  class="mr-2"/>
