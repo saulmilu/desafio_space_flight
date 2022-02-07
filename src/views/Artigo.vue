@@ -19,7 +19,8 @@ interface Data {
   count: number,
   indice: number,
   limit : number,
-  artigos : Artigo[]
+  artigos : Artigo[],
+  preFilter : Artigo[],
 }
 
 export default Vue.extend({
@@ -30,6 +31,7 @@ export default Vue.extend({
       indice: 0,
       limit: 10,
       artigos: [],
+      preFilter: [],
     } as Data;
   },
   mounted() {
@@ -47,8 +49,21 @@ export default Vue.extend({
   methods: {
     async getSpaceFlight() {
       const res = await artigoService(this.indice);
-      this.artigos = [...this.artigos, ...res];
+      this.artigos = [...this.preFilter, ...res];
+      this.preFilter = this.artigos;
       this.indice -= this.limit;
+      this.$store.commit('filterTitle', ' ');
+    },
+  },
+  computed: {
+    filterTitle() {
+      const title = this.$store.getters.filterTitle;
+      return title;
+    },
+  },
+  watch: {
+    filterTitle() {
+      this.artigos = this.filterTitle !== '' ? this.preFilter.filter((a) => a.title.includes(this.filterTitle)) : this.preFilter;
     },
   },
 });

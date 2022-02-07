@@ -13,10 +13,21 @@
 import Vue from 'vue';
 
 export default Vue.extend({
+  props: {
+    titleSearch: String,
+  },
   data() {
     return {
-      search: '',
+      search: this.titleSearch,
     };
+  },
+  watch: {
+    titleSearch() {
+      this.search = this.titleSearch;
+    },
+    search() {
+      this.$emit('input', this.search);
+    },
   },
 });
 </script>

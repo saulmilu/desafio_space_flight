@@ -10,11 +10,12 @@
 
           <div  class="d-flex flex-column align-center justify-center grid-3-1">
             <v-img width="300px" :src="rocket"></v-img>
-            <h2>Space Flight News</h2>
+            <h2>Maria Bananinha</h2>
           </div>
           <div style="width:100%;" class="grid-3-2 d-flex align-center justify-space-between">
-            <search  class="mr-2"/>
-            <v-select  class="mr-2"  label="Filtrar" :items="items"></v-select>
+            <search v-model="titleSearch"  class="mr-2"/>
+            <v-select v-model="itemSelected" class="mr-2"
+              label="Filtrar" :items="items"></v-select>
           </div>
         </div>
       </template>
@@ -28,8 +29,9 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import rocket from './assets/rocket-1206.svg';
+import debounce from 'lodash.debounce';
 import search from './components/Search.vue';
+import rocket from './assets/rocket-1206.svg';
 
 export default Vue.extend({
   name: 'App',
@@ -39,7 +41,41 @@ export default Vue.extend({
   data: () => ({
     rocket,
     items: ['antigos', 'recentes'],
+    itemSelected: '',
+    titleSearch: '',
   }),
+  created() {
+    this.debounceCommitFilter = debounce(this.commitFilter, 2000);
+  },
+  computed: {
+    cleanTitleSearch() {
+      const title = this.$store.getters.filterTitle;
+      return title;
+    },
+  },
+  watch: {
+    titleSearch() {
+      console.log(' titleSearch call');
+      if (this.titleSearch === '') {
+        console.log(`title search cleared ${this.titleSearch}`);
+        return;
+      }
+      this.debounceCommitFilter();
+    },
+    cleanTitleSearch(newValue) {
+      console.log('clean title');
+      if (newValue !== this.titleSearch && newValue === '') {
+        console.log(' cleared');
+        this.titleSearch = newValue;
+      }
+    },
+  },
+  methods: {
+    commitFilter() {
+      console.log(`'comitando ' ${this.titleSearch}`);
+      this.$store.commit('filterTitle', this.titleSearch);
+    },
+  },
 });
 </script>
 <style lang="scss">
