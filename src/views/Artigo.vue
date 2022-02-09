@@ -52,7 +52,7 @@ export default Vue.extend({
       this.artigos = [...this.preFilter, ...res];
       this.preFilter = this.artigos;
       this.indice -= this.limit;
-      this.$store.commit('filterTitle', ' ');
+      this.$store.commit('filterTitle', '');
     },
   },
   computed: {
