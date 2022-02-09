@@ -54,19 +54,20 @@ export default Vue.extend({
     },
   },
   watch: {
-    titleSearch() {
+    titleSearch(newValue) {
       console.log(' titleSearch call');
-      if (this.titleSearch === '') {
+      if (newValue === '') {
         console.log(`title search cleared ${this.titleSearch}`);
-        return;
-      }
+      } else {
       this.debounceCommitFilter();
+      }
     },
-    cleanTitleSearch(newValue) {
+    cleanTitleSearch(newValue, oldValue) {
       console.log('clean title');
-      if (newValue !== this.titleSearch && newValue === '') {
+      if (newValue === '') {
         console.log(' cleared');
         this.titleSearch = newValue;
+        console.log(` title is ${this.titleSearch}`);
       }
     },
   },
