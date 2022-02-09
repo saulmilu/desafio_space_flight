@@ -13,7 +13,7 @@
             <h2>Space Flight News</h2>
           </div>
           <div style="width:100%;" class="grid-3-2 d-flex align-center justify-space-between">
-            <search v-model="titleSearch"  class="mr-2"/>
+            <search v-model="titleSearch" :key="change" class="mr-2"/>
             <v-select v-model="itemSelected" class="mr-2"
               label="Filtrar" :items="items"></v-select>
           </div>
@@ -43,6 +43,7 @@ export default Vue.extend({
     items: ['antigos', 'recentes'],
     itemSelected: '',
     titleSearch: '',
+    change: 0,
   }),
   created() {
     this.debounceCommitFilter = debounce(this.commitFilter, 2000);
@@ -58,8 +59,9 @@ export default Vue.extend({
       console.log(' titleSearch call');
       if (newValue === '') {
         console.log(`title search cleared ${this.titleSearch}`);
+        this.change += 1;
       } else {
-      this.debounceCommitFilter();
+        this.debounceCommitFilter();
       }
     },
     cleanTitleSearch(newValue, oldValue) {
