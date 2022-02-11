@@ -7,7 +7,15 @@
     >
       <template v-slot:default >
         <div style="width:100%;" class="grid-3">
+          <div  class="d-flex align-center justify-center grid-3-0">
+            <v-file-input
+              width="300"
+              accept="text/plain"
+              :rules="rules"
+            >
 
+            </v-file-input>
+          </div>
           <div  class="d-flex flex-column align-center justify-center grid-3-1">
             <v-img width="300px" :src="rocket"></v-img>
             <h2>Space Flight News</h2>
@@ -44,6 +52,12 @@ export default Vue.extend({
     itemSelected: '',
     titleSearch: '',
     change: 0,
+    rules: [
+      (value: any) => {
+        console.log(value);
+        return !value || value.type === 'text/plain' || ' Somente arquivos txt';
+      },
+    ],
   }),
   created() {
     this.debounceCommitFilter = debounce(this.commitFilter, 2000);
